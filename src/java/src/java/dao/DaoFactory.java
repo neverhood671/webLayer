@@ -2,6 +2,7 @@ package src.java.dao;
 
 /**
  * Фабрика объектов для работы с базой данных
+ *
  * @param <Context>
  */
 public interface DaoFactory<Context> {
