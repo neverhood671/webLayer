@@ -1,0 +1,65 @@
+.order-table{   
+    border-collapse:collapse;
+    background-color: #ccffff
+}
+
+.order-table-header{
+    text-align:center;
+    background:none repeat scroll 0 0 #00cccc;
+    border-bottom:1px solid #BBBBBB;
+    padding:16px;
+}
+
+.order-table-odd-row{
+    text-align:center;
+    background:none repeat scroll 0 0 #ccffff;
+    border-top:1px solid #BBBBBB;
+}
+
+.order-table-even-row{
+    text-align:center;
+    background:none repeat scroll 0 0 #00ffff;
+    border-top:1px solid #BBBBBB;
+}
+
+.order-table-odd-row:hover {
+    background-color: #d0dCdd;
+    cursor: pointer;
+}
+.order-table-even-row:hover {
+    background-color: #C0BCC7;
+    cursor: pointer;
+}
+.order-table-even-row:hover a {
+
+    display: block;
+}
+.ul {
+    position: absolute; /* Подменю позиционируются абсолютно */
+    display: none; /* Скрываем подменю */
+    margin-left: 165px; /* Сдвигаем подменю вправо */
+    margin-top: -2em; /* Сдвигаем подменю вверх */
+}
+.ul:a {
+    display: block; /* Ссылка как блочный элемент */
+    padding: 5px; /* Поля вокруг надписи */
+    text-decoration: none; /* Подчеркивание у ссылок убираем */
+    color: #666; /* Цвет текста */
+    border: 1px solid #ccc;/* Рамка вокруг пунктов меню */
+    background-color: #f0f0f0; /* Цвет фона */
+    border-bottom: none; /* Границу снизу не проводим */
+}
+
+
+input[type="submit"] {
+    border-radius: 2px;
+    border: 1px;
+    width: 90px;
+    margin: 5px;
+    height: 25px;
+    font-size: 14px;
+}
+input[type="submit"]:hover {
+    cursor: pointer;
+    border-style: solid;
+}
