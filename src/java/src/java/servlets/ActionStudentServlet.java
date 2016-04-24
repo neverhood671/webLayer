@@ -65,11 +65,18 @@ public class ActionStudentServlet extends HttpServlet {
         try {
             con = daoFactory.getContext();
             if (request.getParameter("Action").equals("Save")) {
-                daoFactory.getDao(con, Student.class).persist(student);
-            } else if (request.getParameter("Action").equals("Update")) {
-                String id = request.getParameter("ID");
-                student.setId(Integer.parseInt(id));
-                daoFactory.getDao(con, Student.class).update(student);
+                if (StringUtils.isEmpty(request.getParameter("ID"))) {
+                    daoFactory.getDao(con, Student.class).persist(student);
+                } else {
+                    String id = request.getParameter("ID");
+                    student.setId(Integer.parseInt(id));
+                    daoFactory.getDao(con, Student.class).update(student);
+                }
+
+                /*} else if (request.getParameter("Action").equals("Update")) {
+                 String id = request.getParameter("ID");
+                 student.setId(Integer.parseInt(id));
+                 daoFactory.getDao(con, Student.class).update(student);*/
             } else if (request.getParameter("Action").equals("Delete")) {
                 String id = request.getParameter("ID");
                 student.setId(Integer.parseInt(id));

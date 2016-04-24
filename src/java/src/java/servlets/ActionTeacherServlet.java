@@ -47,7 +47,7 @@ public class ActionTeacherServlet extends HttpServlet {
             String teacherName = request.getParameter("teacherName");
             String subject = request.getParameter("subject");
             String bossId = request.getParameter("bossId");
-String phoneNumber = request.getParameter("phoneNumber");
+            String phoneNumber = request.getParameter("phoneNumber");
             if (StringUtils.isEmpty(teacherName) || StringUtils.isEmpty(subject)
                     || StringUtils.isEmpty(bossId) || StringUtils.isEmpty(phoneNumber)) {
                 throw new RuntimeException("Incorrect values");
@@ -67,11 +67,17 @@ String phoneNumber = request.getParameter("phoneNumber");
         try {
             con = daoFactory.getContext();
             if (request.getParameter("Action").equals("Save")) {
-                daoFactory.getDao(con, Teacher.class).persist(teacher);
-            } else if (request.getParameter("Action").equals("Update"))  {
-                String id = request.getParameter("ID");
-                teacher.setId(Integer.parseInt(id));
-                daoFactory.getDao(con, Teacher.class).update(teacher);
+                if (StringUtils.isEmpty(request.getParameter("ID"))) {
+                    daoFactory.getDao(con, Teacher.class).persist(teacher);
+                } else {
+                    String id = request.getParameter("ID");
+                    teacher.setId(Integer.parseInt(id));
+                    daoFactory.getDao(con, Teacher.class).update(teacher);
+                }
+                /* } else if (request.getParameter("Action").equals("Update")) {
+                 String id = request.getParameter("ID");
+                 teacher.setId(Integer.parseInt(id));
+                 daoFactory.getDao(con, Teacher.class).update(teacher);*/
             } else if (request.getParameter("Action").equals("Delete")) {
                 String id = request.getParameter("ID");
                 teacher.setId(Integer.parseInt(id));

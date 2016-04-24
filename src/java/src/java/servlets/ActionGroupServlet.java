@@ -60,11 +60,17 @@ public class ActionGroupServlet extends HttpServlet {
         try {
             con = daoFactory.getContext();
             if (request.getParameter("Action").equals("Save")) {
-                daoFactory.getDao(con, Group.class).persist(group);
-            } else if (request.getParameter("Action").equals("Update")) {
-                String id = request.getParameter("GroupNum");
-                group.setId(Integer.parseInt(id));
-                daoFactory.getDao(con, Group.class).update(group);
+                if (StringUtils.isEmpty(request.getParameter("GroupNum"))) {
+                    daoFactory.getDao(con, Group.class).persist(group);
+                } else {
+                    String id = request.getParameter("GroupNum");
+                    group.setId(Integer.parseInt(id));
+                    daoFactory.getDao(con, Group.class).update(group);
+                } /*else if (request.getParameter("Action").equals("Update")) {
+                 String id = request.getParameter("GroupNum");
+                 group.setId(Integer.parseInt(id));
+                 daoFactory.getDao(con, Group.class).update(group);*/
+
             } else if (request.getParameter("Action").equals("Delete")) {
                 String id = request.getParameter("GroupNum");
                 group.setId(Integer.parseInt(id));
@@ -82,7 +88,8 @@ public class ActionGroupServlet extends HttpServlet {
             }
         }
 
-        response.sendRedirect("groups.jsp");
+        response.sendRedirect(
+                "groups.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -38,17 +38,17 @@
                         <td>PhoneNumber</td>
                         <td> <input type="text" name="phoneNumber" value="<%=request.getParameter("BossID")%>" /> </td>
                     </tr>
-                    <input type="hidden" name="ID" value="<%=request.getParameter("ID")%>" />
+                <input type="hidden" name="ID" value="<%=request.getParameter("ID")%>" />
                 </tbody>
             </table>
             <input type="submit" value="Save" name="Action"/>
-            <input type="submit" value="Update" name="Action"/>
+            <!--<input type="submit" value="Update" name="Action"/>-->
             <input type="submit" value="Delete" name="Action"/>
 
         </form
 
-       
-        
+
+
         <form name="Return" action="teachers.jsp">
             <input type="submit" value="Return" name="ReturnButton" />
 

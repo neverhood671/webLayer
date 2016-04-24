@@ -35,7 +35,7 @@
                 </tbody>
             </table>
             <input type="submit" value="Save" name="Action"/>
-            <input type="submit" value="Update" name="Action"/>
+            <!--<input type="submit" value="Update" name="Action"/>-->
             <input type="submit" value="Delete" name="Action"/>
         </form>
         <form name="Return" action="groups.jsp">

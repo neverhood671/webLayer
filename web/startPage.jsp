@@ -6,7 +6,6 @@
 
 <%@page import="src.java.dbobjects.Group"%>
 <%@page import="src.java.dbobjects.Teacher"%>
-<%@page import="src.java.servlets.SearchServlet"%>
 <%@page import="src.java.dbobjects.Student"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
