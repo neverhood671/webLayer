@@ -4,39 +4,43 @@
     Author     : Настя
 --%>
 
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="org.springframework.util.StringUtils"%>
 <%@page import="src.java.dbobjects.Group"%>
-<%@page import="src.java.dbobjects.Teacher"%>
 <%@page import="java.sql.Connection"%>
-<%@page import="src.java.dbobjects.Student"%>
 <%@page import="java.util.List"%>
 <%@page import="src.java.oracle.OracleDaoContextFactory"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
+    Map<String, String> filteredParams = new HashMap<>();
+    filteredParams.put("groupnum", "GroupNum");
+    filteredParams.put("chiefId", "ChiefID");
+    filteredParams.put("profession", "Profession");
+    pageContext.setAttribute("filteredParams", filteredParams);
+
     OracleDaoContextFactory factory = new OracleDaoContextFactory();
     try (Connection connection = factory.getContext()) {
-        String param = request.getParameter("search_elem");
-        String paramVal = request.getParameter("value");
-        if (param != null && !StringUtils.isEmpty(paramVal)) {
-            List<Student> groups = factory.getDao(connection, Group.class).getAllWithParameter(param, paramVal);
+        Map<String, String> filter = new HashMap<>();
+        for (String paramName : filteredParams.keySet()) {
+            String paramVal = request.getParameter(paramName);
+            if (!StringUtils.isEmpty(paramVal)) {
+                filter.put(paramName, paramVal);
+            }
+        }
+        if (filter.isEmpty()) {
+            List<Group> groups = factory.getDao(connection, Group.class).getAll();
             pageContext.setAttribute("groups", groups);
         } else {
-            List<Student> groups = factory.getDao(connection, Group.class).getAll();
+            List<Group> groups = factory.getDao(connection, Group.class).getAllWithParameter(filter);
             pageContext.setAttribute("groups", groups);
+            pageContext.setAttribute("filter", filter);
         }
     }
 %>
 <!DOCTYPE html>
 <html>
-    <style>
-        .order-table-odd-row{
-            text-align:center;
-            background:none repeat scroll 0 0 #ccffff;
-            border-top:1px solid #BBBBBB;}
-        .tr:hover {background-color: #C0BCC7;}
-        .td:hover {background-color: #C0BCC7;}
-    </style>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="${pageContext.servletContext.contextPath}/resources/css/table-style.css" rel="stylesheet" type="text/css"/>
@@ -47,19 +51,30 @@
         <form name="SearchForm" action="groups.jsp">
             <strong>Select parameters:</strong> 
             <table border="0">
-                <tbody>
-                    <tr>
-                        <td><select name="search_elem">
-                                <option>GroupNum</option>
-                                <option>ChiefId</option>
-                                <option>Profession</option>
-                            </select></td>
-                        <td><input type="text" name="value" value="" /></td>
-                    </tr>
-                </tbody>
+                <tr>
+                    <c:forEach var="entry" items="${filteredParams.entrySet()}">
+                        <td>
+                            ${entry.getValue()}
+                        </td>
+                        <td>
+                            <input type="text" name="${entry.getKey()}" value="${filter.get(entry.getKey())}" />
+                        </td>
+                    </c:forEach>
+                </tr>
             </table>
             <input type="submit" value="Search" name="Search" />
         </form>
+        <div class="buttonPanel">
+            <form name="start" action="startPage.jsp">
+                <input type="submit" value="Return" name="Return" />
+            </form>
+            <form name="Delete" action="deleteGroupServlet">
+                <input type="submit" value="Delete" name="Delete" />
+            </form>  
+            <form name="Create" action="createGroupPage.jsp">
+                <input type="submit" value="Create" name="Create" />
+            </form>
+        </div>
         <table class="order-table">
             <tr>
                 <th class="order-table-header">Select</th>
@@ -94,16 +109,9 @@
 
                 </tr>
             </c:forEach>
+        </table>
 
-            <form name="start" action="startPage.jsp">
-                <input type="submit" value="Return" name="Return" />
-            </form>
-            <form name="Delete" action="deleteGroupServlet">
-                <input type="submit" value="Delete" name="Delete" />
-            </form>  
-            <form name="Create" action="createGroupPage.jsp">
-                <input type="submit" value="Create" name="Create" />
-            </form>
+
 
     </body>
 </html>

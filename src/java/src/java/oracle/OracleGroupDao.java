@@ -6,14 +6,14 @@ import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import org.springframework.util.StringUtils;
 import src.java.dao.*;
 import src.java.dbobjects.*;
 
 public class OracleGroupDao extends AbstractJDBCDao<Group, Integer> {
 
-    private static List<String> GROUP_PARAMS = Arrays.asList(new String[]{"groupnum", "chiefId", "profession"});
+    private static List<String> GROUP_PARAMS = Arrays.asList(new String[]{
+        "groupnum", "chiefId", "profession"
+    });
 
     private class PersistGroup extends Group {
 
@@ -40,8 +40,8 @@ public class OracleGroupDao extends AbstractJDBCDao<Group, Integer> {
     }
 
     @Override
-    public String getSelectQueryWithParameters(String param) {
-        return "SELECT * FROM GROUPS WHERE " + param + " = ?";
+    public String getSelectQueryWithParameters(List<String> param) {
+        return "SELECT * FROM GROUPS WHERE " + getParamListToSQLString(param);
     }
 
     @Override
@@ -105,6 +105,8 @@ public class OracleGroupDao extends AbstractJDBCDao<Group, Integer> {
         }
     }
 
-    
-
+    @Override
+    protected boolean isParamCorrect(String param) {
+        return GROUP_PARAMS.contains(param.toLowerCase());
+    }
 }

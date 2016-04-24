@@ -8,14 +8,18 @@ package src.java.oracle;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import src.java.dao.AbstractJDBCDao;
 import src.java.dao.PersistException;
 import src.java.dbobjects.Teacher;
 
 public class OracleTeacherDao extends AbstractJDBCDao<Teacher, Integer> {
+
+    private static List<String> TEACHER_PARAMS = Arrays.asList(new String[]{
+        "id", "name", "subject", "boss_id", "phonenumber"
+    });
 
     private class PersistGroup extends Teacher {
 
@@ -42,8 +46,8 @@ public class OracleTeacherDao extends AbstractJDBCDao<Teacher, Integer> {
     }
 
     @Override
-    public String getSelectQueryWithParameters(String param) {
-        return "SELECT * FROM TEACHERS WHERE " + param + " = ?";
+    public String getSelectQueryWithParameters(List<String> param) {
+        return "SELECT * FROM TEACHERS WHERE " + getParamListToSQLString(param);
     }
 
     @Override
@@ -113,4 +117,8 @@ public class OracleTeacherDao extends AbstractJDBCDao<Teacher, Integer> {
         }
     }
 
+    @Override
+    protected boolean isParamCorrect(String param) {
+        return TEACHER_PARAMS.contains(param.toLowerCase());
+    }
 }

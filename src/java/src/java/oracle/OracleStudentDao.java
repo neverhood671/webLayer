@@ -4,13 +4,17 @@ import src.java.dao.*;
 import src.java.dbobjects.*;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 public class OracleStudentDao extends AbstractJDBCDao<Student, Integer> {
+
+    private static List<String> STUDENT_PARAMS = Arrays.asList(new String[]{
+        "name", "birhtday ", "groupnum", "sal", "id"
+    });
 
     private class PersistStudent extends Student {
 
@@ -37,8 +41,8 @@ public class OracleStudentDao extends AbstractJDBCDao<Student, Integer> {
     }
 
     @Override
-    public String getSelectQueryWithParameters(String param) {
-        return "SELECT * FROM STUDENTS where " + param + " = ?";
+    public String getSelectQueryWithParameters(List<String> param) {
+        return "SELECT * FROM STUDENTS where " + getParamListToSQLString(param);
     }
 
     @Override
@@ -118,5 +122,10 @@ public class OracleStudentDao extends AbstractJDBCDao<Student, Integer> {
             return null;
         }
         return new java.sql.Date(date.getTime());
+    }
+
+    @Override
+    protected boolean isParamCorrect(String param) {
+        return STUDENT_PARAMS.contains(param.toLowerCase());
     }
 }

@@ -16,11 +16,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>CreateTeacher</title>
+        <link href="${pageContext.servletContext.contextPath}/resources/css/table-style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <h1>Создать запись в таблице Teachers:</h1>
         <form name="Save" action="CreateTeacherServlet">
-            <table border="1">          
+            <table>          
                 <tbody>
                     <tr>
                         <td>Name</td>
@@ -38,16 +39,15 @@
                         <td>PhoneNumber</td>
                         <td> <input type="text" name="phoneNumber" value="<%=request.getParameter("BossID")%>" /> </td>
                     </tr>
-                <input type="hidden" name="ID" value="<%=request.getParameter("ID")%>" />
                 </tbody>
             </table>
-            <input type="submit" value="Save" name="Action"/>
-            <!--<input type="submit" value="Update" name="Action"/>-->
-            <input type="submit" value="Delete" name="Action"/>
-
-        </form
-
-
+            <div class="buttonPanel">
+                <input type="hidden" name="ID" value="<%=request.getParameter("ID")%>" />
+                <input type="submit" value="Save" name="Action"/>
+                <!--<input type="submit" value="Update" name="Action"/>-->
+                <input type="submit" value="Delete" name="Action"/>
+            </div>
+        </form>
 
         <form name="Return" action="teachers.jsp">
             <input type="submit" value="Return" name="ReturnButton" />

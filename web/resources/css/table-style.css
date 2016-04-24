@@ -50,6 +50,14 @@
     border-bottom: none; /* Границу снизу не проводим */
 }
 
+.buttonPanel > form,
+.buttonPanel > input {
+    display: inline-block;
+}
+
+.inputBox > div {
+    display: inline-block;
+}
 
 input[type="submit"] {
     border-radius: 2px;

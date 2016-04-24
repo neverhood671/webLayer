@@ -1,10 +1,8 @@
 package src.java.dao;
 
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import src.java.dbobjects.*;
 
 /**
  * Унифицированный интерфейс управления персистентным состоянием объектов
@@ -44,5 +42,5 @@ public interface GenericDao<T extends Identified<PK>, PK extends Serializable> {
      */
     public List<T> getAll() throws PersistException;
 
-    public List<T> getAllWithParameter(String param, String value) throws PersistException;
+    public List<T> getAllWithParameter(Map<String, String> param) throws PersistException;
 }

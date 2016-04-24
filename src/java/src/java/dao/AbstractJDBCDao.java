@@ -1,15 +1,14 @@
 package src.java.dao;
 
-import src.java.dbobjects.*;
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.springframework.util.StringUtils;
 
 /**
  * Абстрактный класс предоставляющий базовую реализацию CRUD операций с
@@ -43,7 +42,7 @@ public abstract class AbstractJDBCDao<T extends Identified<PK>, PK extends Integ
      */
     public abstract String getSelectQueryLastId();
 
-    public abstract String getSelectQueryWithParameters(String param);
+    public abstract String getSelectQueryWithParameters(List<String> param);
 
     public abstract String getUpdateQuery();
 
@@ -179,7 +178,6 @@ public abstract class AbstractJDBCDao<T extends Identified<PK>, PK extends Integ
         return list;
     }
 
-
     /**
      *
      * @param param
@@ -188,20 +186,43 @@ public abstract class AbstractJDBCDao<T extends Identified<PK>, PK extends Integ
      * @throws PersistException
      */
     @Override
-    public List<T> getAllWithParameter(String param, String value) throws PersistException {
-        List<T> list;
-        String sql = getSelectQueryWithParameters(param);
+    public List<T> getAllWithParameter(Map<String, String> param) throws PersistException {
+        List<T> result;
+        List<String> sqlParams = new ArrayList<>();
+        for (String paramName : param.keySet()) {
+            if (isParamCorrect(paramName)) {
+                sqlParams.add(paramName);
+            }
+        }
+        String sql = getSelectQueryWithParameters(sqlParams);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, value);
+            int i = 0;
+            for (String paramName : sqlParams) {
+                statement.setString(++i, param.get(paramName));
+            }
             ResultSet rs = statement.executeQuery();
-            list = parseResultSet(rs);
+            result = parseResultSet(rs);
         } catch (Exception e) {
             throw new PersistException(e);
         }
-        return list;
+        return result;
     }
+
+    protected abstract boolean isParamCorrect(String param);
+
     public AbstractJDBCDao(Connection connection) {
         this.connection = connection;
+    }
+
+    protected String getParamListToSQLString(List<String> param) {
+        if (param.isEmpty()) {
+            return "";
+        }
+        StringBuilder str = new StringBuilder();
+        for (String paramName : param) {
+            str.append(" ").append(paramName).append(" = ? and");
+        }
+        return str.substring(0, str.length() - 4);
     }
 
 }
