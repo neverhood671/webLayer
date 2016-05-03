@@ -3,7 +3,6 @@
     Created on : 19.04.2016, 18:22:24
     Author     : Настя
 --%>
-
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="org.springframework.util.StringUtils"%>
@@ -43,7 +42,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="${pageContext.servletContext.contextPath}/resources/css/table-style.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.servletContext.contextPath}/resources/css/table-style.css" 
+              rel="stylesheet" type="text/css"/>
         <title>Groups</title>
     </head>
     <body>
@@ -68,23 +68,17 @@
             <form name="start" action="startPage.jsp">
                 <input type="submit" value="Return" name="Return" />
             </form>
-            <form name="Delete" action="deleteGroupServlet">
-                <input type="submit" value="Delete" name="Delete" />
-            </form>  
             <form name="Create" action="createGroupPage.jsp">
                 <input type="submit" value="Create" name="Create" />
             </form>
         </div>
         <table class="order-table">
             <tr>
-                <th class="order-table-header">Select</th>
                 <th class="order-table-header">GroupNum</th>
-                <th class="order-table-header">CheifID</th>
+                <th class="order-table-header">ChiefID</th>
                 <th class="order-table-header">Profession</th>
                 <th class="order-table-header">Details</th>
-
             </tr>
-
             <%
                 int odd = 0;
             %>
@@ -94,24 +88,18 @@
                     odd++;
                 %>
                 <tr class="<%=style%>">
-                    <td><form name="updateRowForm" action="createGroupPage.jsp" method="GET">
-                            <input type="checkbox" name="checkButton" value="${status.count}"> 
-                        </form</td>
                     <td><c:out value="${row.id}"/></td>
                     <td><c:out value="${row.chiefId}"/></td>
                     <td><c:out value="${row.profession}"/></td>
-                    <td><form name="updateRowForm" action="createGroupPage.jsp" method="GET">
-                            <input type="hidden" name="GroupNum" value="${row.id}"</input>
-                            <input type="hidden" name="CheifID" value="${row.chiefId}"</input>
-                            <input type="hidden" name="Profession" value="${row.profession}"</input>
-                            <input type="submit" name="selectButton" value="see details"</input>
-                        </form></td>
-
+                    <td><form name="updateRowForm" action="SeeDetailsGroup.jsp" method="GET">
+                            <input type="hidden" name="GroupNum" value="${row.id}"/>
+                            <input type="hidden" name="ChiefID" value="${row.chiefId}"/>
+                            <input type="hidden" name="Profession" value="${row.profession}"/>
+                            <input type="submit" name="selectButton" value="details"/>
+                        </form>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
-
-
-
     </body>
 </html>

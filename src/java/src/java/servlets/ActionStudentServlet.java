@@ -59,12 +59,12 @@ public class ActionStudentServlet extends HttpServlet {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
-
         DaoFactory<Connection> daoFactory = new OracleDaoContextFactory();
         Connection con = null;
         try {
             con = daoFactory.getContext();
-            if (request.getParameter("Action").equals("Save")) {
+            if (request.getParameter("Action").equals("Save")
+                    || request.getParameter("ID").equals("null")) {
                 if (StringUtils.isEmpty(request.getParameter("ID"))) {
                     daoFactory.getDao(con, Student.class).persist(student);
                 } else {
@@ -72,11 +72,6 @@ public class ActionStudentServlet extends HttpServlet {
                     student.setId(Integer.parseInt(id));
                     daoFactory.getDao(con, Student.class).update(student);
                 }
-
-                /*} else if (request.getParameter("Action").equals("Update")) {
-                 String id = request.getParameter("ID");
-                 student.setId(Integer.parseInt(id));
-                 daoFactory.getDao(con, Student.class).update(student);*/
             } else if (request.getParameter("Action").equals("Delete")) {
                 String id = request.getParameter("ID");
                 student.setId(Integer.parseInt(id));
@@ -93,7 +88,6 @@ public class ActionStudentServlet extends HttpServlet {
                 }
             }
         }
-
         response.sendRedirect("students.jsp");
     }
 

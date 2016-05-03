@@ -8,8 +8,6 @@ package src.java.servlets;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.util.StringUtils;
 import src.java.dao.DaoFactory;
 import src.java.dao.PersistException;
-import src.java.dbobjects.Student;
 import src.java.dbobjects.Teacher;
 import src.java.oracle.OracleDaoContextFactory;
 
@@ -43,17 +40,15 @@ public class ActionTeacherServlet extends HttpServlet {
 
         Teacher teacher = null;
         try {
-
-            String teacherName = request.getParameter("teacherName");
-            String subject = request.getParameter("subject");
-            String bossId = request.getParameter("bossId");
+            String teacherName = request.getParameter("Name");
+            String subject = request.getParameter("Subject");
+            String bossId = request.getParameter("BossID");
             String phoneNumber = request.getParameter("phoneNumber");
             if (StringUtils.isEmpty(teacherName) || StringUtils.isEmpty(subject)
                     || StringUtils.isEmpty(bossId) || StringUtils.isEmpty(phoneNumber)) {
                 throw new RuntimeException("Incorrect values");
             }
             teacher = new Teacher();
-
             teacher.setName(teacherName);
             teacher.setSubject(subject);
             teacher.setBossId(Integer.parseInt(bossId));
@@ -61,25 +56,21 @@ public class ActionTeacherServlet extends HttpServlet {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
-
         DaoFactory<Connection> daoFactory = new OracleDaoContextFactory();
         Connection con = null;
         try {
             con = daoFactory.getContext();
             if (request.getParameter("Action").equals("Save")) {
-                if (StringUtils.isEmpty(request.getParameter("ID"))) {
+                if (StringUtils.isEmpty(request.getParameter("ID"))
+                        || request.getParameter("ID").equals("null")) {
                     daoFactory.getDao(con, Teacher.class).persist(teacher);
                 } else {
                     String id = request.getParameter("ID");
                     teacher.setId(Integer.parseInt(id));
                     daoFactory.getDao(con, Teacher.class).update(teacher);
                 }
-                /* } else if (request.getParameter("Action").equals("Update")) {
-                 String id = request.getParameter("ID");
-                 teacher.setId(Integer.parseInt(id));
-                 daoFactory.getDao(con, Teacher.class).update(teacher);*/
             } else if (request.getParameter("Action").equals("Delete")) {
-                String id = request.getParameter("ID");
+                String id = request.getParameter("TeachID");
                 teacher.setId(Integer.parseInt(id));
                 daoFactory.getDao(con, Teacher.class).delete(teacher);
             }
@@ -94,7 +85,6 @@ public class ActionTeacherServlet extends HttpServlet {
                 }
             }
         }
-
         response.sendRedirect("teachers.jsp");
     }
 

@@ -13,7 +13,7 @@ import java.util.List;
 public class OracleStudentDao extends AbstractJDBCDao<Student, Integer> {
 
     private static List<String> STUDENT_PARAMS = Arrays.asList(new String[]{
-        "name", "birhtday ", "groupnum", "sal", "id"
+        "name", "birhtday", "groupnum", "sal", "id"
     });
 
     private class PersistStudent extends Student {
@@ -89,15 +89,11 @@ public class OracleStudentDao extends AbstractJDBCDao<Student, Integer> {
     @Override
     protected void prepareStatementForUpdate(PreparedStatement statement, Student object) throws PersistException {
         try {
-            //Date sqlDate = convert(object.getEnrolmentDate());
-
             statement.setString(1, object.getName());
             statement.setDate(2, new java.sql.Date(object.getBirhtday().getTime()));
-            // statement.setDate(3, sqlDate);
             statement.setInt(3, object.getGroup());
             statement.setInt(4, object.getSal());
             statement.setInt(5, object.getId());
-            // statement.setInt(5, object.getId());
         } catch (Exception e) {
             throw new PersistException(e);
         }
@@ -106,8 +102,6 @@ public class OracleStudentDao extends AbstractJDBCDao<Student, Integer> {
     @Override
     protected void prepareStatementForInsert(PreparedStatement statement, Student object) throws PersistException {
         try {
-            //  Date sqlDate = convert(object.getEnrolmentDate());
-//            statement.setInt(1, object.getId());
             statement.setString(1, object.getName());
             statement.setDate(2, new java.sql.Date(object.getBirhtday().getTime()));
             statement.setInt(3, object.getGroup());

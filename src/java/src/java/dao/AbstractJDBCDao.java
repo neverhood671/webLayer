@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -180,16 +181,16 @@ public abstract class AbstractJDBCDao<T extends Identified<PK>, PK extends Integ
 
     /**
      *
-     * @param param
+     * @param params
      * @param value
      * @return
      * @throws PersistException
      */
     @Override
-    public List<T> getAllWithParameter(Map<String, String> param) throws PersistException {
+    public List<T> getAllWithParameter(Map<String, Object> params) throws PersistException {
         List<T> result;
         List<String> sqlParams = new ArrayList<>();
-        for (String paramName : param.keySet()) {
+        for (String paramName : params.keySet()) {
             if (isParamCorrect(paramName)) {
                 sqlParams.add(paramName);
             }
@@ -198,7 +199,12 @@ public abstract class AbstractJDBCDao<T extends Identified<PK>, PK extends Integ
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             int i = 0;
             for (String paramName : sqlParams) {
-                statement.setString(++i, param.get(paramName));
+                Object param = params.get(paramName);
+                if (param instanceof Date) {
+                    statement.setDate(++i, new java.sql.Date(((Date) param).getTime()));
+                } else {
+                    statement.setString(++i, (String) params.get(paramName));
+                }
             }
             ResultSet rs = statement.executeQuery();
             result = parseResultSet(rs);
@@ -224,5 +230,4 @@ public abstract class AbstractJDBCDao<T extends Identified<PK>, PK extends Integ
         }
         return str.substring(0, str.length() - 4);
     }
-
 }

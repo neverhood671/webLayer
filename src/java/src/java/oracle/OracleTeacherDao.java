@@ -22,7 +22,6 @@ public class OracleTeacherDao extends AbstractJDBCDao<Teacher, Integer> {
     });
 
     private class PersistGroup extends Teacher {
-
         @Override
         public void setId(int id) {
             super.setId(id);
@@ -52,7 +51,7 @@ public class OracleTeacherDao extends AbstractJDBCDao<Teacher, Integer> {
 
     @Override
     public String getUpdateQuery() {
-        return "UPDATE TEACHERS SET NAME= ?, SUBJECT = ?, BOSS_ID = ? PHONENUMBER = ? WHERE ID = ?";
+        return "UPDATE TEACHERS SET NAME = ?, SUBJECT = ?, BOSS_ID = ?, PHONENUMBER = ? WHERE ID = ?";
     }
 
     @Override
@@ -92,7 +91,6 @@ public class OracleTeacherDao extends AbstractJDBCDao<Teacher, Integer> {
     @Override
     protected void prepareStatementForInsert(PreparedStatement statement, Teacher object) throws PersistException {
         try {
-            //statement.setInt(1, object.getId());
             statement.setString(1, object.getName());
             statement.setString(2, object.getSubject());
             statement.setInt(3, object.getBossId());
@@ -105,13 +103,11 @@ public class OracleTeacherDao extends AbstractJDBCDao<Teacher, Integer> {
     @Override
     protected void prepareStatementForUpdate(PreparedStatement statement, Teacher object) throws PersistException {
         try {
-
             statement.setString(1, object.getName());
             statement.setString(2, object.getSubject());
             statement.setInt(3, object.getBossId());
             statement.setInt(4, object.getPhoneNumber());
             statement.setInt(5, object.getId());
-
         } catch (Exception e) {
             throw new PersistException(e);
         }

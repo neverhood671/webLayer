@@ -8,8 +8,6 @@ package src.java.servlets;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +17,6 @@ import org.springframework.util.StringUtils;
 import src.java.dao.DaoFactory;
 import src.java.dao.PersistException;
 import src.java.dbobjects.Group;
-import src.java.dbobjects.Student;
 import src.java.oracle.OracleDaoContextFactory;
 
 /**
@@ -60,17 +57,14 @@ public class ActionGroupServlet extends HttpServlet {
         try {
             con = daoFactory.getContext();
             if (request.getParameter("Action").equals("Save")) {
-                if (StringUtils.isEmpty(request.getParameter("GroupNum"))) {
+                if (StringUtils.isEmpty(request.getParameter("GroupNum"))
+                        || request.getParameter("GroupNum").equals("null")) {
                     daoFactory.getDao(con, Group.class).persist(group);
                 } else {
                     String id = request.getParameter("GroupNum");
                     group.setId(Integer.parseInt(id));
                     daoFactory.getDao(con, Group.class).update(group);
-                } /*else if (request.getParameter("Action").equals("Update")) {
-                 String id = request.getParameter("GroupNum");
-                 group.setId(Integer.parseInt(id));
-                 daoFactory.getDao(con, Group.class).update(group);*/
-
+                }
             } else if (request.getParameter("Action").equals("Delete")) {
                 String id = request.getParameter("GroupNum");
                 group.setId(Integer.parseInt(id));
@@ -87,9 +81,7 @@ public class ActionGroupServlet extends HttpServlet {
                 }
             }
         }
-
-        response.sendRedirect(
-                "groups.jsp");
+        response.sendRedirect("groups.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

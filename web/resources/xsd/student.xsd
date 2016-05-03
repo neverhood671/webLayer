@@ -1,0 +1,19 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="xsd/student.xsd"
+           elementFormDefault="qualified">
+    <xs:element name="StudentsList">
+        <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+                <xs:element name="Student">
+                    <xs:complexType>
+                        <xs:attribute name="ID" type="xs:decimal"/>
+                        <xs:attribute name="name" type="xs:string"/>
+                        <xs:attribute name="birhtday" type="xs:date"/>
+                        <xs:attribute name="groupnum" type="xs:decimal"/>
+                        <xs:attribute name="sal" type="xs:decimal"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

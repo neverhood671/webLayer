@@ -42,5 +42,5 @@ public interface GenericDao<T extends Identified<PK>, PK extends Serializable> {
      */
     public List<T> getAll() throws PersistException;
 
-    public List<T> getAllWithParameter(Map<String, String> param) throws PersistException;
+    public List<T> getAllWithParameter(Map<String, Object> param) throws PersistException;
 }

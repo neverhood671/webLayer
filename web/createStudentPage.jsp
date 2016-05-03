@@ -3,7 +3,6 @@
     Created on : 05.04.2016, 14:51:29
     Author     : Настя
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,37 +14,54 @@
     <body>
         <h1>Создать запись в таблице Students:</h1>
         <form name="Save" action="CreateStudentServlet">
-            <table>          
+            <table class="order-table">          
                 <tbody>
+                    <%  String nameStr = "";
+                        String birhtdayStr = "";
+                        String groupnumStr = "";
+                        String salStr = "";
+                        String idStr = "";
+                        if (request.getParameter("ID") != null) {
+                            nameStr = request.getParameter("Name");
+                            birhtdayStr = request.getParameter("Birhtday");
+                            groupnumStr = request.getParameter("Group");
+                            salStr = request.getParameter("Salary");
+                            idStr = request.getParameter("ID");
+                        }%>
                     <tr>
                         <td>Имя</td>
-                        <td> <input type="text" name="studentName" value="<%=request.getParameter("Name")%>" /> </td>
+                        <td>
+                            <input type="text" name="studentName" value="<%=nameStr%>" />
+                        </td>
                     </tr>
                     <tr>
                         <td>День Рождения</td>
-                        <td> <input type="text" name="studentBirthday" value="<%=request.getParameter("Birhtday")%>"/> </td>
+                        <td>
+                            <input type="date" name="studentBirthday" value="<%=birhtdayStr%>"/>
+                        </td>
                     </tr>
                     <tr>
                         <td>Группа</td>
-                        <td> <input type="text" name="studentGroup" value="<%=request.getParameter("Group")%>" /> </td>
+                        <td>
+                            <input type="text" name="studentGroup" value="<%=groupnumStr%>" />  
+                        </td>
                     </tr>
                     <tr>
                         <td>Стипендия</td>
-                        <td> <input type="text" name="studentSalary" value="<%=request.getParameter("Salary")%>" /> </td>
+                        <td>
+                            <input type="text" name="studentSalary" value="<%=salStr%>" />
+                        </td>
                     </tr>
-
                 </tbody>
             </table>
             <div class="buttonPanel">
-                <input type="hidden" name="ID" value="<%=request.getParameter("ID")%>" />    
+                <input type="hidden" name="ID" value="<%=idStr%>" />    
                 <input type="submit" value="Save" name="Action"/>
-                <!--<input type="submit" value="Update" name="Action"/>-->
                 <input type="submit" value="Delete" name="Action"/>
             </div>
         </form>
         <form name="Return" action="students.jsp">
             <input type="submit" value="Return" name="ReturnButton" />
-
         </form>
     </body>
 </html>

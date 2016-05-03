@@ -9,7 +9,6 @@
     Created on : 18.04.2016, 13:47:08
     Author     : fkfkf
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -21,37 +20,46 @@
     <body>
         <h1>Создать запись в таблице Teachers:</h1>
         <form name="Save" action="CreateTeacherServlet">
-            <table>          
+            <table class="order-table">          
                 <tbody>
+                    <%  String nameStr = "";
+                        String subStr = "";
+                        String phoneNumStr = "";
+                        String bossIdStr = "";
+                        String idStr = "";
+                        if (request.getParameter("ID") != null) {
+                            nameStr = request.getParameter("Name");
+                            subStr = request.getParameter("Subject");
+                            phoneNumStr = request.getParameter("phoneNumber");
+                            bossIdStr = request.getParameter("BossID");
+                            idStr = request.getParameter("ID");
+                         }%>
                     <tr>
                         <td>Name</td>
-                        <td> <input type="text" name="teacherName" value="<%=request.getParameter("Name")%>" /> </td>
+                        <td> <input type="text" name="Name" value="<%=nameStr%>" /> </td>
                     </tr>
                     <tr>
                         <td>Subject</td>
-                        <td> <input type="text" name="subject" value="<%=request.getParameter("Subject")%>"/> </td>
+                        <td> <input type="text" name="Subject" value="<%=subStr%>"/> </td>
                     </tr>
                     <tr>
                         <td>BossId</td>
-                        <td> <input type="text" name="bossId" value="<%=request.getParameter("BossID")%>" /> </td>
+                        <td> <input type="text" name="BossID" value="<%=bossIdStr%>" /> </td>
                     </tr>
                     <tr>
                         <td>PhoneNumber</td>
-                        <td> <input type="text" name="phoneNumber" value="<%=request.getParameter("BossID")%>" /> </td>
+                        <td> <input type="text" name="phoneNumber" value="<%=phoneNumStr%>" /> </td>
                     </tr>
                 </tbody>
             </table>
             <div class="buttonPanel">
-                <input type="hidden" name="ID" value="<%=request.getParameter("ID")%>" />
+                <input type="hidden" name="ID" value="<%=idStr%>" />
                 <input type="submit" value="Save" name="Action"/>
-                <!--<input type="submit" value="Update" name="Action"/>-->
                 <input type="submit" value="Delete" name="Action"/>
             </div>
         </form>
-
         <form name="Return" action="teachers.jsp">
             <input type="submit" value="Return" name="ReturnButton" />
-
         </form>
     </body>
 </html>

@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" path="/LABAweb">
-    <WatchedResource>WEB-INF/web.xml</WatchedResource>
-    <Resource name="jdbc/XE" auth="Container"
-              factory="oracle.jdbc.pool.OracleDataSourceFactory" 
-              type="oracle.jdbc.pool.OracleDataSource"
-              driverClassName="oracle.jdbc.OracleDriver"
-              connectionCachingEnabled="true"	
-              url="jdbc:oracle:thin:@localhost:1521:XE"
-              user="LAb"
-              password="LAB" 
-             />
+  <WatchedResource>WEB-INF/web.xml</WatchedResource>
+  <Resource auth="Container" connectionCachingEnabled="true" driverClassName="oracle.jdbc.OracleDriver" factory="oracle.jdbc.pool.OracleDataSourceFactory" name="jdbc/XE" password="LAB" type="oracle.jdbc.pool.OracleDataSource" url="jdbc:oracle:thin:@localhost:1521:XE" user="LAb"/>
 </Context>

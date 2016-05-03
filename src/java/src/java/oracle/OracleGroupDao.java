@@ -12,7 +12,7 @@ import src.java.dbobjects.*;
 public class OracleGroupDao extends AbstractJDBCDao<Group, Integer> {
 
     private static List<String> GROUP_PARAMS = Arrays.asList(new String[]{
-        "groupnum", "chiefId", "profession"
+        "groupnum", "chiefid", "profession"
     });
 
     private class PersistGroup extends Group {
@@ -84,7 +84,6 @@ public class OracleGroupDao extends AbstractJDBCDao<Group, Integer> {
     @Override
     protected void prepareStatementForInsert(PreparedStatement statement, Group object) throws PersistException {
         try {
-
             statement.setInt(1, object.getChiefId());
             statement.setString(2, object.getProfession());
         } catch (Exception e) {
@@ -95,11 +94,9 @@ public class OracleGroupDao extends AbstractJDBCDao<Group, Integer> {
     @Override
     protected void prepareStatementForUpdate(PreparedStatement statement, Group object) throws PersistException {
         try {
-
             statement.setInt(1, object.getChiefId());
             statement.setString(2, object.getProfession());
             statement.setInt(3, object.getId());
-            //statement.setInt(4, object.getId());
         } catch (Exception e) {
             throw new PersistException(e);
         }

@@ -3,14 +3,12 @@
     Created on : 05.04.2016, 14:50:37
     Author     : Настя
 --%>
-
 <%@page import="src.java.dbobjects.Group"%>
 <%@page import="src.java.dbobjects.Teacher"%>
 <%@page import="src.java.dbobjects.Student"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
