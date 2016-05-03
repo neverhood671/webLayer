@@ -1,3 +1,5 @@
+<%@page import="org.springframework.util.StringUtils"%>
+<%@page import="org.springframework.util.StreamUtils"%>
 <%@page import="src.java.dbobjects.Teacher"%>
 <%@page import="src.java.dbobjects.Group"%>
 <%@page import="java.util.List"%>
@@ -20,6 +22,14 @@
         <link href="${pageContext.servletContext.contextPath}/resources/css/table-style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
+        <%
+            String errorMessage = (String) request.getAttribute("error");
+            if (!StringUtils.isEmpty(errorMessage)) {
+        %>
+        <div class="errorText"><%=errorMessage%></div>
+        <%
+            }
+        %>
         <h1>Создать запись в таблице Groups:</h1>
         <form name="Save" action="CreateGroupServlet">
             <table>          
@@ -34,11 +44,11 @@
                         }%>
                     <tr>
                         <td>ChiefID</td>
-                        <td> <input type="text" name="chiefId" value="<%=cheifIdStr%>" /> </td>
+                        <td> <input type="text" name="ChiefID" value="<%=cheifIdStr%>" /> </td>
                     </tr>
                     <tr>
                         <td>Profession</td>
-                        <td> <input type="text" name="profession" value="<%=professionStr%>"/> </td>
+                        <td> <input type="text" name="Profession" value="<%=professionStr%>"/> </td>
                     </tr>
                 </tbody>
             </table>
