@@ -52,7 +52,7 @@ public class ActionGroupServlet extends HttpServlet {
             group.setChiefId(chiefId);
             group.setProfession(profession);
         } catch (Exception ex) {
-            request.setAttribute("error", "Incorrect type of values");
+            request.setAttribute("error", "Incorrect values");
             forward(request, response);
             return;
         }

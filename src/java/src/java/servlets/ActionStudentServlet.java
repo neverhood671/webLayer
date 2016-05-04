@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.util.StringUtils;
 import src.java.dao.DaoFactory;
 import src.java.dao.PersistException;
+import src.java.dbobjects.Group;
 import src.java.dbobjects.Student;
 import src.java.oracle.OracleDaoContextFactory;
 
@@ -42,10 +44,10 @@ public class ActionStudentServlet extends HttpServlet {
 
         Student student = null;
         try {
-            String studentName = request.getParameter("studentName");
-            String studentBirthday = request.getParameter("studentBirthday");
-            String studentGroup = request.getParameter("studentGroup");
-            String studentSalary = request.getParameter("studentSalary");
+            String studentName = request.getParameter("Name");
+            String studentBirthday = request.getParameter("Birhtday");
+            String studentGroup = request.getParameter("Group");
+            String studentSalary = request.getParameter("Salary");
             if (StringUtils.isEmpty(studentName) || StringUtils.isEmpty(studentBirthday)
                     || StringUtils.isEmpty(studentGroup) || StringUtils.isEmpty(studentSalary)) {
                 throw new RuntimeException("Incorrect values");
@@ -57,7 +59,8 @@ public class ActionStudentServlet extends HttpServlet {
             student.setGroup(Integer.parseInt(studentGroup));
             student.setSal(Integer.parseInt(studentSalary));
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            request.setAttribute("error", "Incorrect values");
+            forward(request, response);
         }
         DaoFactory<Connection> daoFactory = new OracleDaoContextFactory();
         Connection con = null;
@@ -66,7 +69,14 @@ public class ActionStudentServlet extends HttpServlet {
             if (request.getParameter("Action").equals("Save")
                     || request.getParameter("ID").equals("null")) {
                 if (StringUtils.isEmpty(request.getParameter("ID"))) {
-                    daoFactory.getDao(con, Student.class).persist(student);
+                    try {
+                        daoFactory.getDao(con, Group.class).getByPK(student.getGroup());
+                        daoFactory.getDao(con, Student.class).persist(student);
+                    } catch (Exception e) {
+                        request.setAttribute("error", "Incorrect value of Group");
+                        forward(request, response);
+                        return;
+                    }
                 } else {
                     String id = request.getParameter("ID");
                     student.setId(Integer.parseInt(id));
@@ -78,7 +88,9 @@ public class ActionStudentServlet extends HttpServlet {
                 daoFactory.getDao(con, Student.class).delete(student);
             }
         } catch (PersistException ex) {
-            throw new RuntimeException(ex);
+            request.setAttribute("error", "Illegal action for this element");
+            forward(request, response);
+            return;
         } finally {
             if (con != null) {
                 try {
@@ -89,6 +101,11 @@ public class ActionStudentServlet extends HttpServlet {
             }
         }
         response.sendRedirect("students.jsp");
+    }
+
+    private void forward(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/createStudentPage.jsp");
+        dispatcher.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

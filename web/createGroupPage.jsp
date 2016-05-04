@@ -6,7 +6,6 @@
 <%@page import="src.java.dbobjects.Student"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="src.java.oracle.OracleDaoContextFactory"%>
-<%@page import="src.java.oracle.OracleDaoContextFactory"%>
 <%@taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
 <%-- 
     Document   : createGroupPage

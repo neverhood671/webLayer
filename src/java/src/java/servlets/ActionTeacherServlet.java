@@ -8,6 +8,7 @@ package src.java.servlets;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,7 +44,7 @@ public class ActionTeacherServlet extends HttpServlet {
             String teacherName = request.getParameter("Name");
             String subject = request.getParameter("Subject");
             String bossId = request.getParameter("BossID");
-            String phoneNumber = request.getParameter("phoneNumber");
+            String phoneNumber = request.getParameter("PhoneNumber");
             if (StringUtils.isEmpty(teacherName) || StringUtils.isEmpty(subject)
                     || StringUtils.isEmpty(bossId) || StringUtils.isEmpty(phoneNumber)) {
                 throw new RuntimeException("Incorrect values");
@@ -54,7 +55,8 @@ public class ActionTeacherServlet extends HttpServlet {
             teacher.setBossId(Integer.parseInt(bossId));
             teacher.setPhoneNumber(Integer.parseInt(phoneNumber));
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            request.setAttribute("error", "Incorrect values");
+            forward(request, response);
         }
         DaoFactory<Connection> daoFactory = new OracleDaoContextFactory();
         Connection con = null;
@@ -63,19 +65,28 @@ public class ActionTeacherServlet extends HttpServlet {
             if (request.getParameter("Action").equals("Save")) {
                 if (StringUtils.isEmpty(request.getParameter("ID"))
                         || request.getParameter("ID").equals("null")) {
-                    daoFactory.getDao(con, Teacher.class).persist(teacher);
+                    try {
+                        daoFactory.getDao(con, Teacher.class).getByPK(teacher.getBossId());
+                        daoFactory.getDao(con, Teacher.class).persist(teacher);
+                    } catch (Exception e) {
+                        request.setAttribute("error", "Incorrect value of BossID");
+                        forward(request, response);
+                        return;
+                    }
                 } else {
                     String id = request.getParameter("ID");
                     teacher.setId(Integer.parseInt(id));
                     daoFactory.getDao(con, Teacher.class).update(teacher);
                 }
             } else if (request.getParameter("Action").equals("Delete")) {
-                String id = request.getParameter("TeachID");
+                String id = request.getParameter("ID");
                 teacher.setId(Integer.parseInt(id));
                 daoFactory.getDao(con, Teacher.class).delete(teacher);
             }
         } catch (PersistException ex) {
-            throw new RuntimeException(ex);
+            request.setAttribute("error", "Illegal action for this element");
+            forward(request, response);
+            return;
         } finally {
             if (con != null) {
                 try {
@@ -86,6 +97,11 @@ public class ActionTeacherServlet extends HttpServlet {
             }
         }
         response.sendRedirect("teachers.jsp");
+    }
+
+    private void forward(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/createTeachPage.jsp");
+        dispatcher.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

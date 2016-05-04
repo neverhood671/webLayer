@@ -123,7 +123,7 @@
                     <td><c:out value="${row.sal}"/></td>
                     <td>
                         <form name="updateRowForm" action="SeeDetailsStudent.jsp" method="GET">
-                            <input type="hidden" name="id" value="${row.id}"/>
+                            <input type="hidden" name="ID" value="${row.id}"/>
                             <input type="submit" name="selectButton" value="details"/>
                         </form>
                     </td>

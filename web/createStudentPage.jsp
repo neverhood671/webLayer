@@ -3,6 +3,7 @@
     Created on : 05.04.2016, 14:51:29
     Author     : Настя
 --%>
+<%@page import="org.springframework.util.StringUtils"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,6 +13,14 @@
         <link href="${pageContext.servletContext.contextPath}/resources/css/table-style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
+        <%
+            String errorMessage = (String) request.getAttribute("error");
+            if (!StringUtils.isEmpty(errorMessage)) {
+        %>
+        <div class="errorText"><%=errorMessage%></div>
+        <%
+            }
+        %>
         <h1>Создать запись в таблице Students:</h1>
         <form name="Save" action="CreateStudentServlet">
             <table class="order-table">          
@@ -31,25 +40,25 @@
                     <tr>
                         <td>Имя</td>
                         <td>
-                            <input type="text" name="studentName" value="<%=nameStr%>" />
+                            <input type="text" name="Name" value="<%=nameStr%>" />
                         </td>
                     </tr>
                     <tr>
                         <td>День Рождения</td>
                         <td>
-                            <input type="date" name="studentBirthday" value="<%=birhtdayStr%>"/>
+                            <input type="date" name="Birhtday" value="<%=birhtdayStr%>"/>
                         </td>
                     </tr>
                     <tr>
                         <td>Группа</td>
                         <td>
-                            <input type="text" name="studentGroup" value="<%=groupnumStr%>" />  
+                            <input type="text" name="Group" value="<%=groupnumStr%>" />  
                         </td>
                     </tr>
                     <tr>
                         <td>Стипендия</td>
                         <td>
-                            <input type="text" name="studentSalary" value="<%=salStr%>" />
+                            <input type="text" name="Salary" value="<%=salStr%>" />
                         </td>
                     </tr>
                 </tbody>

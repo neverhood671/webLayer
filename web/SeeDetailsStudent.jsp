@@ -17,7 +17,7 @@
     OracleDaoContextFactory factory = new OracleDaoContextFactory();
     Connection connection = factory.getContext();
     Map<String, String> filter = new HashMap<>();
-    filter.put("id", request.getParameter("id"));
+    filter.put("id", request.getParameter("ID"));
     List<Student> students = factory.getDao(connection, Student.class).getAllWithParameter(filter);
     pageContext.setAttribute("teachers", students);
     pageContext.setAttribute("filter", filter);
@@ -41,15 +41,15 @@
             <tbody>
                 <tr>
                     <td>Id</td>
-                    <td> <input type="text" name="id" value="<%=id%>" readonly/> </td>
+                    <td> <input type="text" name="ID" value="<%=id%>" readonly/> </td>
                 </tr>
                 <tr>
                     <td>Имя</td>
-                    <td> <input type="text" name="studentName" value="<%=name%>" readonly/> </td>
+                    <td> <input type="text" name="Name" value="<%=name%>" readonly/> </td>
                 </tr>
                 <tr>
                     <td>День Рождения</td>
-                    <td> <input type="text" name="studentBirthday" value="<%=birhtday%>" readonly/> </td>
+                    <td> <input type="text" name="Birhtday" value="<%=birhtday%>" readonly/> </td>
                 </tr>
                 <tr>
                     <td>Группа</td>
@@ -63,7 +63,7 @@
                 </tr>
                 <tr>
                     <td>Стипендия</td>
-                    <td> <input type="text" name="studentSalary" value="<%=sal%>" readonly/> </td>
+                    <td> <input type="text" name="Salary" value="<%=sal%>" readonly/> </td>
                 </tr>
             </tbody>
         </table>

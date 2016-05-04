@@ -42,23 +42,23 @@
             <tbody>
                 <tr>
                     <td>Id</td>
-                    <td> <input type="text" name="teacherID " value="<%=id%>" readonly/> </td>
+                    <td> <input type="text" name="ID" value="<%=id%>" readonly/> </td>
                 </tr>
                 <tr>
                     <td>Name</td>
-                    <td> <input type="text" name="teacherName" value="<%=name%>" readonly/> </td>
+                    <td> <input type="text" name="Name" value="<%=name%>" readonly/> </td>
                 </tr>
                 <tr>
                     <td>Subject</td>
-                    <td> <input type="text" name="subject" value="<%=subject%>" readonly/> </td>
+                    <td> <input type="text" name="Subject" value="<%=subject%>" readonly/> </td>
                 </tr>
                 <tr>
                     <td>BossId</td>
-                    <td> <input type="text" name="bossId" value="<%=boss_Id%>" readonly/> </td>
+                    <td> <input type="text" name="BossId" value="<%=boss_Id%>" readonly/> </td>
                 </tr>
                 <tr>
                     <td>PhoneNumber</td>
-                    <td> <input type="text" name="phoneNumber" value="<%=phoneNumber%>" readonly/> </td>
+                    <td> <input type="text" name="PhoneNumber" value="<%=phoneNumber%>" readonly/> </td>
                 </tr>
             </tbody>
         </table>
@@ -67,7 +67,7 @@
             <input type="hidden" name="Name" value="<%=name%>"/>
             <input type="hidden" name="Subject" value="<%=subject%>"/>
             <input type="hidden" name="BossID" value="<%=boss_Id%>"/>
-            <input type="hidden" name="phoneNumber" value="<%=phoneNumber%>"/>
+            <input type="hidden" name="PhoneNumber" value="<%=phoneNumber%>"/>
             <input type="submit" value="Modify" name="Modify" />
         </form>
         <form name="return" action="startPage.jsp">     

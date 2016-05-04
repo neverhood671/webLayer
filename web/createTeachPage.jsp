@@ -1,3 +1,4 @@
+<%@page import="org.springframework.util.StringUtils"%>
 <%@page import="src.java.dbobjects.Teacher"%>
 <%@page import="src.java.dbobjects.Group"%>
 <%@page import="java.util.List"%>
@@ -18,6 +19,14 @@
         <link href="${pageContext.servletContext.contextPath}/resources/css/table-style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
+        <%
+            String errorMessage = (String) request.getAttribute("error");
+            if (!StringUtils.isEmpty(errorMessage)) {
+        %>
+        <div class="errorText"><%=errorMessage%></div>
+        <%
+            }
+        %>
         <h1>Создать запись в таблице Teachers:</h1>
         <form name="Save" action="CreateTeacherServlet">
             <table class="order-table">          
@@ -30,7 +39,7 @@
                         if (request.getParameter("ID") != null) {
                             nameStr = request.getParameter("Name");
                             subStr = request.getParameter("Subject");
-                            phoneNumStr = request.getParameter("phoneNumber");
+                            phoneNumStr = request.getParameter("PhoneNumber");
                             bossIdStr = request.getParameter("BossID");
                             idStr = request.getParameter("ID");
                          }%>
@@ -48,7 +57,7 @@
                     </tr>
                     <tr>
                         <td>PhoneNumber</td>
-                        <td> <input type="text" name="phoneNumber" value="<%=phoneNumStr%>" /> </td>
+                        <td> <input type="text" name="PhoneNumber" value="<%=phoneNumStr%>" /> </td>
                     </tr>
                 </tbody>
             </table>
